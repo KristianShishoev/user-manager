@@ -1,0 +1,52 @@
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<h2>Insert user</h2>
+
+ <form  id="insertUserForm">
+  Email:<br>
+  <input type="text" name="email" >
+  <br>
+  Password:<br>
+  <input type="password" name="password" >
+  <br>
+  BirthDate:<br>
+  <input type="date" name="birthDate" >
+  <br>
+  First name:<br>
+  <input type="text" name="firstName" >
+  <br>
+  Last name:<br>
+  <input type="text" name="lastName">
+  <br>
+   <input value="Insert" type="button"  onclick="insertRequest()" >
+</form>  
+
+<script >
+function insertRequest(){
+var serializedArray = JSON.stringify($("#insertUserForm").serializeArray());
+var formData = objectifyForm ($("#insertUserForm").serializeArray());
+formData = JSON.stringify(formData);
+$.ajax({
+    url: '/user/create',
+    method: 'post',
+    data: formData,
+    contentType : "application/json",
+    success: function(result) {
+       window.location.href='index.html'
+    },
+    error: function(request,msg,error) {
+        alert('error');
+    }
+});
+
+}
+
+function objectifyForm(formArray) {
+  var returnArray = {};
+  for (var i = 0; i < formArray.length; i++){
+    returnArray[formArray[i]['name']] = formArray[i]['value'];
+  }
+  return returnArray;
+}
+</script>
